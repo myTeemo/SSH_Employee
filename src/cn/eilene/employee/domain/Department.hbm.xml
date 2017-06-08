@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="cn.eilene.employee.domain.Department" table="department">
+        <id name="did" type="java.lang.Integer">
+            <column name="did" />
+            <generator class="native" />
+        </id>
+        <property name="dname" type="java.lang.String" length="20">
+            <column name="dname" />
+        </property>
+        <property name="ddesc" type="java.lang.String" length="100">
+            <column name="ddesc" />
+        </property>
+        <set name="employees" cascade="delete" inverse="true">
+            <key>
+                <column name="dno" />
+            </key>
+            <one-to-many class="cn.eilene.employee.domain.Employee" />
+        </set>
+    </class>
+</hibernate-mapping>

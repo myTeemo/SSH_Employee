@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts> 
+
+	<constant name="struts.custom.i18n.resources" value="i18n"/>
+	
+	<package name="ssh_unlogin" extends="struts-default" namespace="/unlogin">
+		<action name="employee_*" class="employeeAction" method="{1}">
+			<result name="success" type="redirect">/frame.jsp</result>
+			<result name="input">/index.jsp</result>
+		</action>
+	</package>
+	
+    <package name="ssh_logined" extends="struts-default" namespace="/">
+    	
+    	<interceptors>
+			<interceptor name="authInter" class="cn.eilene.employee.action.AuthInterceptor"></interceptor>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="authInter" />
+				<interceptor-ref name="defaultStack" />	
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myStack" />
+    
+    	<action name="employee_*" class="employeeAction" method="{1}">
+    		<result name="input" type="redirect">/404.jsp</result>
+    		<result name="success" type="redirect">/frame.jsp</result>
+    		<result name="findAll" >/jsp/employee/listEmployee.jsp</result>
+    		<result name="saveUI">/jsp/employee/addEmployee.jsp</result>
+    		<result name="saveSuccess" type="redirectAction">employee_findAll.action</result>
+    		<result name="editSuccess">/jsp/employee/editEmployee.jsp</result>
+    		<result name="updateSuccess" type="redirectAction">employee_findAll.action</result>
+    		<result name="deleteSuccess" type="redirectAction">employee_findAll.action</result>
+    	</action>
+    	<action name="department_*" class="departmentAction" method="{1}">
+    		<result name="input" type="redirect">/404.jsp</result>
+    		<result name="findAll">/jsp/department/listDepartment.jsp</result>
+    		<result name="saveUI">/jsp/department/addDepartment.jsp</result>
+    		<result name="saveSuccess" type="redirectAction">department_findAll.action</result>
+    		<result name="editSuccess" >/jsp/department/editDepartment.jsp</result>
+    		<result name="updateSuccess" type="redirectAction">department_findAll.action</result>
+    		<result name="deleteSuccess" type="redirectAction">department_findAll.action</result>
+    	</action>
+    </package>
+</struts>
